@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="web_state" type="id" />
+    <item name="web_helper" type="id" />
+    <item name="web_usage_count" type="id" />
+</resources>
