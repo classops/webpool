@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        WebManager.get(this).idleCreate()
         WebManager.get(this).webCallback = object : WebCallback<WebView> {
             override fun onWebViewAttach(webView: WebView) {
                 Log.d("Test", "web ${webView.hashCode()} attach")

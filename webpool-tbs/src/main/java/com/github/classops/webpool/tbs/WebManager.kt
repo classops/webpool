@@ -2,9 +2,9 @@ package com.github.classops.webpool.tbs
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Looper
 import android.util.Log
 import androidx.activity.ComponentActivity
-import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
 import com.github.classops.webpool.core.WebCallback
 import com.github.classops.webpool.core.WebCallbackProvider
@@ -77,9 +77,19 @@ class WebManager(
         }
     }
 
-    @UiThread
+
+    /**
+     * 空闲时预创建WebView，返回false仅执行一次
+     */
+    fun idleCreate() {
+        Looper.myQueue().addIdleHandler {
+            preCreate()
+            false
+        }
+    }
+
     fun preCreate() {
-        if (isPreCreated) return
+        if (currentPoolSize > 0 || isPreCreated) return
         Log.d(TAG, "preCreate")
         val webView = webViewPool.get(null)
         webViewPool.put(webView)

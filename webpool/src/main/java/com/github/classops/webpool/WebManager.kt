@@ -2,6 +2,7 @@ package com.github.classops.webpool
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Looper
 import android.util.Log
 import android.webkit.WebView
 import androidx.activity.ComponentActivity
@@ -75,8 +76,18 @@ class WebManager(
         }
     }
 
+    /**
+     * 空闲时预创建WebView，返回false仅执行一次
+     */
+    fun idleCreate() {
+        Looper.myQueue().addIdleHandler {
+            preCreate()
+            false
+        }
+    }
+
     fun preCreate() {
-        if (isPreCreated) return
+        if (currentPoolSize > 0 || isPreCreated) return
         Log.d(TAG, "preCreate")
         val webView = webViewPool.get(null)
         webViewPool.put(webView)

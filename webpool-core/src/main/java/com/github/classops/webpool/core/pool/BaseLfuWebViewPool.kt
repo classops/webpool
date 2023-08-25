@@ -131,7 +131,16 @@ open class BaseLfuWebViewPool<T : ViewGroup>(
     }
 
     private fun incUsageCount(webView: T) {
-        webView.setTag(R.id.web_usage_count, getUsageCount(webView) + 1)
+        webView.setTag(
+            R.id.web_usage_count,
+            getUsageCount(webView).let {
+                if (it == Int.MAX_VALUE) {
+                    Int.MAX_VALUE
+                } else {
+                    it + 1
+                }
+            }
+        )
     }
 
 }
